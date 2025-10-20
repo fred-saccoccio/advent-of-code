@@ -21,7 +21,7 @@ bool is_forbidden(char s[2]) {
   return false;
 }
 
-bool is_nice(string s) {
+bool is_nicer(string s) {
   bool ret_val = false;
   char current_char;
   char frame[2] = {'#', '#'};
@@ -29,6 +29,22 @@ bool is_nice(string s) {
   size_t length = s.length();
   unsigned int twice_in_a_row = 0;
   bool forbidden_matched = false;
+
+  for(int i = 0; i < length - 1; i++) {
+		printf("%c%c :\n", s[i], s[i+1]);
+
+		// Loop before
+		printf("  Loop before :\n");
+		for(int j = 0; j < i - 1; j++) {
+			printf("    %c%c\n", s[j], s[j+1]);
+		}
+		
+		// Loop after
+		printf("  Loop after :\n");
+		for(int j = i + 2; j < length - 1; j++) {
+			printf("    %c%c\n", s[j], s[j+1]);
+		}
+	}
 
   for(size_t i = 0; i < length; i++) {
     current_char = s[i];
@@ -67,6 +83,12 @@ bool is_nice(string s) {
   return ret_val;
 }
 
+
+bool is_nice(string s) {
+  bool ret_val = false;
+  return ret_val;
+}
+
 int main (int argc, char *argv[]) {
   int nb_lines = 0;
   int nice_lines = 0;
@@ -80,7 +102,7 @@ int main (int argc, char *argv[]) {
   {
     string line;
     getline(cin, line);
-    if(is_nice(line)) {
+    if(is_nicer(line)) {
       printf("%s\n", line.c_str());
       nice_lines++;
     }
