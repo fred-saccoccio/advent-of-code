@@ -15,7 +15,7 @@ bool is_nicer(string s) {
       if(memcmp(s.c_str() + i, s.c_str() + j, 2) == 0) {
         matched_double_vowels++;
         break;
-			}
+      }
     }
 
     // Loop after
@@ -25,11 +25,11 @@ bool is_nicer(string s) {
         break;
       }
     }
-	}
+  }
 
 
   for(size_t i = 0; i < length - 2; i++) {
-		if(s[i] == s[i+2]) {
+    if(s[i] == s[i+2]) {
       matched_three_overlap++;
     }
   }
