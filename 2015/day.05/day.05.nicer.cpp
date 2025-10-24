@@ -9,24 +9,18 @@ bool is_nicer(string s) {
   unsigned int matched_three_overlap = 0;
 
   for(int i = 0; i < length - 1; i++) {
-    // printf("%c%c :\n", s[i], s[i+1]);
 
     // Loop before
-    // printf("  Loop before :\n");
     for(int j = 0; j < i - 1; j++) {
       if(memcmp(s.c_str() + i, s.c_str() + j, 2) == 0) {
-        // printf("match !\n");
         matched_double_vowels++;
         break;
 			}
     }
 
     // Loop after
-    // printf("  Loop after :\n");
     for(int j = i + 2; j < length - 1; j++) {
-      // printf("    %c%c\n", s[j], s[j+1]);
       if(memcmp(s.c_str() + i, s.c_str() + j, 2) == 0) {
-        // printf("match !\n");
         matched_double_vowels++;
         break;
       }
@@ -35,7 +29,6 @@ bool is_nicer(string s) {
 
 
   for(size_t i = 0; i < length - 2; i++) {
-    // current_char = s[i];
 		if(s[i] == s[i+2]) {
       matched_three_overlap++;
     }
