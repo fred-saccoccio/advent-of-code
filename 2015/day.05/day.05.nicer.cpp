@@ -1,91 +1,50 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-bool is_forbidden(char s[2]) {
-  // "ab"
-  if(s[0] == 'a' && s[1] == 'b')
-    return true;
-
-  // "cd"
-  if(s[0] == 'c' && s[1] == 'd')
-    return true;
-  
-  // "pq"
-  if(s[0] == 'p' && s[1] == 'q')
-    return true;
-  
-  // "xy"
-  if(s[0] == 'x' && s[1] == 'y')
-    return true;
-
-  return false;
-}
 
 bool is_nicer(string s) {
   bool ret_val = false;
-  char current_char;
-  char frame[2] = {'#', '#'};
-  unsigned int nb_vowels = 0;
   size_t length = s.length();
-  unsigned int twice_in_a_row = 0;
-  bool forbidden_matched = false;
+  unsigned int matched_double_vowels = 0;
+  unsigned int matched_three_overlap = 0;
 
   for(int i = 0; i < length - 1; i++) {
-		printf("%c%c :\n", s[i], s[i+1]);
+    // printf("%c%c :\n", s[i], s[i+1]);
 
-		// Loop before
-		printf("  Loop before :\n");
-		for(int j = 0; j < i - 1; j++) {
-			printf("    %c%c\n", s[j], s[j+1]);
-		}
-		
-		// Loop after
-		printf("  Loop after :\n");
-		for(int j = i + 2; j < length - 1; j++) {
-			printf("    %c%c\n", s[j], s[j+1]);
-		}
+    // Loop before
+    // printf("  Loop before :\n");
+    for(int j = 0; j < i - 1; j++) {
+      if(memcmp(s.c_str() + i, s.c_str() + j, 2) == 0) {
+        // printf("match !\n");
+        matched_double_vowels++;
+        break;
+			}
+    }
+
+    // Loop after
+    // printf("  Loop after :\n");
+    for(int j = i + 2; j < length - 1; j++) {
+      // printf("    %c%c\n", s[j], s[j+1]);
+      if(memcmp(s.c_str() + i, s.c_str() + j, 2) == 0) {
+        // printf("match !\n");
+        matched_double_vowels++;
+        break;
+      }
+    }
 	}
 
-  for(size_t i = 0; i < length; i++) {
-    current_char = s[i];
-    
-    // Check vowels
-    if(   current_char == 'a'
-       || current_char == 'e'
-       || current_char == 'i'
-       || current_char == 'o'
-       || current_char == 'u' ) {
-      nb_vowels++;
-    }
-    
-    // Update frame[]
-    frame[1] = current_char;
-    if(i > 0) {
-      frame[0] = s[i-1];
-    }
 
-    // Check for forbidden strings
-    if(is_forbidden(frame)) {
-      forbidden_matched = true;
-      break;
-    }
-    
-    // Check for twice in row
-    if(frame[0] == frame[1]) {
-      twice_in_a_row++;
+  for(size_t i = 0; i < length - 2; i++) {
+    // current_char = s[i];
+		if(s[i] == s[i+2]) {
+      matched_three_overlap++;
     }
   }
 
-  if(!forbidden_matched && nb_vowels >= 3 && twice_in_a_row > 0) {
+  if(matched_double_vowels > 0 && matched_three_overlap > 0) {
     ret_val = true;
   }
 
-  return ret_val;
-}
-
-
-bool is_nice(string s) {
-  bool ret_val = false;
   return ret_val;
 }
 
@@ -98,8 +57,7 @@ int main (int argc, char *argv[]) {
   cin.ignore();
   
   // Process each line
-  for(int i=0; i < nb_lines; i++)
-  {
+  for(int i=0; i < nb_lines; i++) {
     string line;
     getline(cin, line);
     if(is_nicer(line)) {
