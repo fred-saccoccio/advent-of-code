@@ -41,17 +41,20 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 #include <cmath>
+#include "Expression.h"
 #include "Scanner1.hpp"
+#include "WireMachine.h" 
 
-#line 48 "Parser1.cpp"
+#line 51 "Parser1.cpp"
 
 
 #include "Parser1.hpp"
 
 
 // Unqualified %code blocks.
-#line 34 "grammar_wire_machine.y"
+#line 39 "grammar_wire_machine.y"
 
   namespace calc {
     long long ivars['Z' - 'A' + 1];
@@ -64,9 +67,10 @@
         return n * factorial(n - 1);
       }
     }
+    WireMachine m;
   } // namespace calc
 
-#line 70 "Parser1.cpp"
+#line 74 "Parser1.cpp"
 
 
 #ifndef YY_
@@ -138,9 +142,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 14 "grammar_wire_machine.y"
+#line 17 "grammar_wire_machine.y"
 namespace calc {
-#line 144 "Parser1.cpp"
+#line 148 "Parser1.cpp"
 
   /// Build a parser object.
   Parser::Parser (yyscan_t scanner_yyarg)
@@ -171,8 +175,12 @@ namespace calc {
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.copy< std::shared_ptr<Expression> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.copy< char > (YY_MOVE (that.value));
+        value.copy< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -210,8 +218,12 @@ namespace calc {
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.move< std::shared_ptr<Expression> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.move< char > (YY_MOVE (s.value));
+        value.move< std::string > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -318,8 +330,12 @@ namespace calc {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.YY_MOVE_OR_COPY< std::shared_ptr<Expression> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.YY_MOVE_OR_COPY< char > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -341,8 +357,12 @@ namespace calc {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.move< std::shared_ptr<Expression> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.move< char > (YY_MOVE (that.value));
+        value.move< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -364,8 +384,12 @@ namespace calc {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.copy< std::shared_ptr<Expression> > (that.value);
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.copy< char > (that.value);
+        value.copy< std::string > (that.value);
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -385,8 +409,12 @@ namespace calc {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.move< std::shared_ptr<Expression> > (that.value);
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.move< char > (that.value);
+        value.move< std::string > (that.value);
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -646,8 +674,12 @@ namespace calc {
          when using variants.  */
       switch (yyr1_[yyn])
     {
+      case symbol_kind::S_expr: // expr
+        yylhs.value.emplace< std::shared_ptr<Expression> > ();
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        yylhs.value.emplace< char > ();
+        yylhs.value.emplace< std::string > ();
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -669,31 +701,156 @@ namespace calc {
           switch (yyn)
             {
   case 4: // line: EOL
-#line 54 "grammar_wire_machine.y"
-                                    { std::cerr << "Read an empty line.\n"; }
-#line 675 "Parser1.cpp"
+#line 60 "grammar_wire_machine.y"
+                                      { }
+#line 707 "Parser1.cpp"
     break;
 
-  case 5: // line: USHORT CONNECT WIRE_NAME EOL
-#line 55 "grammar_wire_machine.y"
-                                       { std::cout << "syn:Immediate connection matched\n" << "syn:Set level " << yystack_[3].value.as < unsigned short > () << " to '" << yystack_[1].value.as < char > () << "'" << std::endl; }
-#line 681 "Parser1.cpp"
+  case 5: // line: QUERY WIRE_NAME
+#line 62 "grammar_wire_machine.y"
+          { 
+            std::cout << "Query matched for wire " << yystack_[0].value.as < std::string > () <<  std::endl;
+            unsigned short w = 0; 
+            try {
+              w = m.QueryWireNodeValue(yystack_[0].value.as < std::string > ());
+              std::cout << yystack_[0].value.as < std::string > () << "=" << w << endl; 
+            } catch(std::string exc) {
+              std::cout << "Error: " << exc << std::endl; 
+            }
+          }
+#line 722 "Parser1.cpp"
     break;
 
-  case 6: // line: WIRE_NAME CONNECT WIRE_NAME
-#line 56 "grammar_wire_machine.y"
-                                      { std::cout << "syn:Connect '" << yystack_[2].value.as < char > () << "' to '" << yystack_[0].value.as < char > () << "'\n"; }
-#line 687 "Parser1.cpp"
+  case 6: // line: expr CONNECT WIRE_NAME EOL
+#line 73 "grammar_wire_machine.y"
+          { 
+            yystack_[3].value.as < std::shared_ptr<Expression> > ()->print(); 
+            std::cout << "wire=" << yystack_[1].value.as < std::string > () << std::endl;
+            WireNode w;
+            w.Name = yystack_[1].value.as < std::string > ();
+            switch(yystack_[3].value.as < std::shared_ptr<Expression> > ()->Type) {
+              case VALUE:
+                w.Type = IMMEDIATE;
+                w.Value = yystack_[3].value.as < std::shared_ptr<Expression> > ()->Value;
+                m.AddWireNode(w);
+                break;
+              case WIRE:
+                w.Type = SINGLE;
+                w.Connections[0] = yystack_[3].value.as < std::shared_ptr<Expression> > ()->Operands[0];
+                m.AddWireNode(w);
+                break;
+              case NOT:
+                w.Type = OP_NOT;
+                break;
+            }
+          }
+#line 748 "Parser1.cpp"
     break;
 
   case 7: // line: error EOL
-#line 57 "grammar_wire_machine.y"
-                                    { yyerrok; }
-#line 693 "Parser1.cpp"
+#line 94 "grammar_wire_machine.y"
+                                      { yyerrok; }
+#line 754 "Parser1.cpp"
+    break;
+
+  case 8: // expr: USHORT
+#line 96 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[0].value.as < unsigned short > ()); }
+#line 760 "Parser1.cpp"
+    break;
+
+  case 9: // expr: WIRE_NAME
+#line 97 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(WIRE, 0, yystack_[0].value.as < std::string > ()); }
+#line 766 "Parser1.cpp"
+    break;
+
+  case 10: // expr: OP_NOT WIRE_NAME
+#line 98 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(NOT, 0, yystack_[0].value.as < std::string > ()); }
+#line 772 "Parser1.cpp"
+    break;
+
+  case 11: // expr: OP_NOT USHORT
+#line 99 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, ~yystack_[0].value.as < unsigned short > ()); }
+#line 778 "Parser1.cpp"
+    break;
+
+  case 12: // expr: WIRE_NAME OP_AND WIRE_NAME
+#line 100 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND, 0, yystack_[2].value.as < std::string > (), yystack_[0].value.as < std::string > ()); }
+#line 784 "Parser1.cpp"
+    break;
+
+  case 13: // expr: USHORT OP_AND WIRE_NAME
+#line 101 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND_SINGLE, yystack_[2].value.as < unsigned short > (), yystack_[0].value.as < std::string > ()); }
+#line 790 "Parser1.cpp"
+    break;
+
+  case 14: // expr: WIRE_NAME OP_AND USHORT
+#line 102 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND_SINGLE, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
+#line 796 "Parser1.cpp"
+    break;
+
+  case 15: // expr: USHORT OP_AND USHORT
+#line 103 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () & yystack_[0].value.as < unsigned short > ()); }
+#line 802 "Parser1.cpp"
+    break;
+
+  case 16: // expr: WIRE_NAME OP_OR WIRE_NAME
+#line 104 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR, 0, yystack_[2].value.as < std::string > (), yystack_[0].value.as < std::string > ()); }
+#line 808 "Parser1.cpp"
+    break;
+
+  case 17: // expr: USHORT OP_OR WIRE_NAME
+#line 105 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR_SINGLE, yystack_[2].value.as < unsigned short > (), yystack_[0].value.as < std::string > ()); }
+#line 814 "Parser1.cpp"
+    break;
+
+  case 18: // expr: WIRE_NAME OP_OR USHORT
+#line 106 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR_SINGLE, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
+#line 820 "Parser1.cpp"
+    break;
+
+  case 19: // expr: USHORT OP_OR USHORT
+#line 107 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () | yystack_[0].value.as < unsigned short > ()); }
+#line 826 "Parser1.cpp"
+    break;
+
+  case 20: // expr: USHORT OP_LSHIFT USHORT
+#line 108 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () >> yystack_[0].value.as < unsigned short > ()); }
+#line 832 "Parser1.cpp"
+    break;
+
+  case 21: // expr: WIRE_NAME OP_LSHIFT USHORT
+#line 109 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(SHIFTL, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
+#line 838 "Parser1.cpp"
+    break;
+
+  case 22: // expr: USHORT OP_RSHIFT USHORT
+#line 110 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () << yystack_[0].value.as < unsigned short > ()); }
+#line 844 "Parser1.cpp"
+    break;
+
+  case 23: // expr: WIRE_NAME OP_RSHIFT USHORT
+#line 111 "grammar_wire_machine.y"
+                                      { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(SHIFTR, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
+#line 850 "Parser1.cpp"
     break;
 
 
-#line 697 "Parser1.cpp"
+#line 854 "Parser1.cpp"
 
             default:
               break;
@@ -882,67 +1039,81 @@ namespace calc {
 
 
 
-  const signed char Parser::yypact_ninf_ = -8;
+  const signed char Parser::yypact_ninf_ = -7;
 
   const signed char Parser::yytable_ninf_ = -1;
 
   const signed char
   Parser::yypact_[] =
   {
-      -8,     0,    -8,    -7,    -8,    -5,    -4,    -8,    -8,    -6,
-      -2,    -8,    -1,    -8
+      -7,     0,    -7,    -1,    -7,     6,    -6,     1,     8,    -7,
+      10,    -7,    -7,    -7,    -7,     9,    11,    16,    17,    13,
+      15,    18,    19,    21,    -7,    -7,    -7,    -7,    -7,    -7,
+      -7,    -7,    -7,    -7,    -7,    -7,    30,    -7
   };
 
   const signed char
   Parser::yydefact_[] =
   {
-       2,     0,     1,     0,     4,     0,     0,     3,     7,     0,
-       0,     6,     0,     5
+       2,     0,     1,     0,     4,     0,     0,     9,     8,     3,
+       0,     7,    10,    11,     5,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,    12,    14,    16,    18,    23,    21,
+      13,    15,    17,    19,    22,    20,     0,     6
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-      -8,    -8,    -8
+      -7,    -7,    -7,    -7
   };
 
   const signed char
   Parser::yydefgoto_[] =
   {
-       0,     1,     7
+       0,     1,     9,    10
   };
 
   const signed char
   Parser::yytable_[] =
   {
-       2,     3,     8,     9,    10,     0,    11,     0,    13,     4,
-      12,     0,     5,     6
+       2,     3,    11,     4,     5,    14,    15,    16,    17,    18,
+       6,     7,     8,    19,    20,    21,    22,    12,    13,    23,
+      24,    25,    26,    27,    30,    31,    32,    33,    28,    29,
+      34,    35,    36,    37
   };
 
   const signed char
   Parser::yycheck_[] =
   {
-       0,     1,     9,     8,     8,    -1,    12,    -1,     9,     9,
-      12,    -1,    12,    13
+       0,     1,     3,     3,     4,    11,     5,     6,     7,     8,
+      10,    11,    12,     5,     6,     7,     8,    11,    12,     9,
+      11,    12,    11,    12,    11,    12,    11,    12,    12,    12,
+      12,    12,    11,     3
   };
 
   const signed char
   Parser::yystos_[] =
   {
-       0,    15,     0,     1,     9,    12,    13,    16,     9,     8,
-       8,    12,    12,     9
+       0,    14,     0,     1,     3,     4,    10,    11,    12,    15,
+      16,     3,    11,    12,    11,     5,     6,     7,     8,     5,
+       6,     7,     8,     9,    11,    12,    11,    12,    12,    12,
+      11,    12,    11,    12,    12,    12,    11,     3
   };
 
   const signed char
   Parser::yyr1_[] =
   {
-       0,    14,    15,    15,    16,    16,    16,    16
+       0,    13,    14,    14,    15,    15,    15,    15,    16,    16,
+      16,    16,    16,    16,    16,    16,    16,    16,    16,    16,
+      16,    16,    16,    16
   };
 
   const signed char
   Parser::yyr2_[] =
   {
-       0,     2,     0,     2,     1,     4,     3,     2
+       0,     2,     0,     2,     1,     2,     4,     2,     1,     1,
+       2,     2,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3
   };
 
 
@@ -952,9 +1123,9 @@ namespace calc {
   const char*
   const Parser::yytname_[] =
   {
-  "\"end of file\"", "error", "\"invalid token\"", "OP_NOT", "OP_AND",
-  "OP_OR", "OP_RSHIFT", "OP_LSHIFT", "CONNECT", "EOL", "LPAREN", "RPAREN",
-  "WIRE_NAME", "USHORT", "$accept", "lines", "line", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "EOL", "OP_NOT",
+  "OP_AND", "OP_OR", "OP_RSHIFT", "OP_LSHIFT", "CONNECT", "QUERY",
+  "WIRE_NAME", "USHORT", "$accept", "lines", "line", "expr", YY_NULLPTR
   };
 #endif
 
@@ -963,7 +1134,9 @@ namespace calc {
   const signed char
   Parser::yyrline_[] =
   {
-       0,    50,    50,    51,    54,    55,    56,    57
+       0,    56,    56,    57,    60,    61,    72,    94,    96,    97,
+      98,    99,   100,   101,   102,   103,   104,   105,   106,   107,
+     108,   109,   110,   111
   };
 
   void
@@ -1028,10 +1201,10 @@ namespace calc {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13
+       5,     6,     7,     8,     9,    10,    11,    12
     };
     // Last valid token kind.
-    const int code_max = 268;
+    const int code_max = 267;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1041,11 +1214,11 @@ namespace calc {
       return symbol_kind::S_YYUNDEF;
   }
 
-#line 14 "grammar_wire_machine.y"
+#line 17 "grammar_wire_machine.y"
 } // calc
-#line 1047 "Parser1.cpp"
+#line 1220 "Parser1.cpp"
 
-#line 60 "grammar_wire_machine.y"
+#line 112 "grammar_wire_machine.y"
 
   
 void calc::Parser::error(const std::string& msg) {

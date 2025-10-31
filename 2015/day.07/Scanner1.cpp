@@ -339,8 +339,8 @@ static void yynoreturn yy_fatal_error ( const char* msg , yyscan_t yyscanner );
 	yyg->yy_hold_char = *yy_cp; \
 	*yy_cp = '\0'; \
 	yyg->yy_c_buf_p = yy_cp;
-#define YY_NUM_RULES 11
-#define YY_END_OF_BUFFER 12
+#define YY_NUM_RULES 12
+#define YY_END_OF_BUFFER 13
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -348,12 +348,12 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[33] =
+static const flex_int16_t yy_accept[39] =
     {   0,
-        0,    0,   12,   10,    9,   10,    1,   10,   10,   10,
-       10,   10,    2,    8,    1,    0,    0,    0,    5,    0,
-        2,    4,    0,    3,    0,    0,    0,    0,    0,    6,
-        7,    0
+        0,    0,   13,   11,   10,   11,    1,   11,   11,   11,
+       11,   11,   11,    2,    8,    1,    0,    0,    0,    5,
+        0,    0,    2,    4,    0,    3,    0,    0,    0,    0,
+        0,    0,    0,    0,    6,    9,    7,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -364,14 +364,14 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    3,    1,    1,    4,    4,    4,
         4,    4,    4,    4,    4,    4,    4,    1,    1,    1,
-        1,    5,    1,    1,    6,    1,    1,    7,    1,    8,
-        1,    9,   10,    1,    1,   11,    1,   12,   13,    1,
-        1,   14,   15,   16,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,   17,   17,   17,   17,
+        1,    5,    6,    1,    7,    1,    1,    8,    9,   10,
+        1,   11,   12,    1,    1,   13,    1,   14,   15,    1,
+       16,   17,   18,   19,   20,    1,    1,    1,   21,    1,
+        1,    1,    1,    1,    1,    1,   22,   22,   22,   22,
 
-       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
-       17,   17,    1,    1,    1,    1,    1,    1,    1,    1,
+       22,   22,   22,   22,   22,   22,   22,   22,   22,   22,
+       22,   22,   22,   22,   22,   22,   22,   22,   22,   22,
+       22,   22,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -388,46 +388,51 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[18] =
+static const YY_CHAR yy_meta[23] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1
     } ;
 
-static const flex_int16_t yy_base[33] =
+static const flex_int16_t yy_base[39] =
     {   0,
-        0,    0,   38,   39,   39,   32,   32,   23,   19,   20,
-       18,   16,   13,   39,   25,   21,   18,   10,   39,   16,
-        7,   39,   13,   39,   12,   13,   12,    3,    2,   39,
-       39,   39
+        0,    0,   48,   49,   49,   42,   42,   31,   26,   28,
+       25,   21,   22,   17,   49,   34,   29,   25,   16,   49,
+       25,   22,   10,   49,   19,   49,   13,   17,   18,    6,
+       16,    6,   18,    4,   49,   49,   49,   49
     } ;
 
-static const flex_int16_t yy_def[33] =
+static const flex_int16_t yy_def[39] =
     {   0,
-       32,    1,   32,   32,   32,   32,   32,   32,   32,   32,
-       32,   32,   32,   32,   32,   32,   32,   32,   32,   32,
-       32,   32,   32,   32,   32,   32,   32,   32,   32,   32,
-       32,    0
+       38,    1,   38,   38,   38,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,    0
     } ;
 
-static const flex_int16_t yy_nxt[57] =
+static const flex_int16_t yy_nxt[72] =
     {   0,
-        4,    5,    6,    7,    4,    8,    4,    4,    4,    4,
-        9,   10,   11,   12,    4,    4,   13,   31,   30,   29,
-       28,   27,   26,   21,   25,   24,   23,   22,   15,   21,
-       20,   19,   18,   17,   16,   15,   14,   32,    3,   32,
-       32,   32,   32,   32,   32,   32,   32,   32,   32,   32,
-       32,   32,   32,   32,   32,   32
+        4,    5,    6,    7,    4,    4,    8,    4,    4,    4,
+        4,    4,    9,   10,   11,   12,   13,    4,    4,    4,
+        4,   14,   37,   36,   35,   34,   33,   32,   31,   30,
+       29,   23,   28,   27,   26,   25,   24,   16,   23,   22,
+       21,   20,   19,   18,   17,   16,   15,   38,    3,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38
     } ;
 
-static const flex_int16_t yy_chk[57] =
+static const flex_int16_t yy_chk[72] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,   29,   28,   27,
-       26,   25,   23,   21,   20,   18,   17,   16,   15,   13,
-       12,   11,   10,    9,    8,    7,    6,    3,   32,   32,
-       32,   32,   32,   32,   32,   32,   32,   32,   32,   32,
-       32,   32,   32,   32,   32,   32
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,   34,   33,   32,   31,   30,   29,   28,   27,
+       25,   23,   22,   21,   19,   18,   17,   16,   14,   13,
+       12,   11,   10,    9,    8,    7,    6,    3,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
+       38
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -440,10 +445,12 @@ static const flex_int16_t yy_chk[57] =
 #line 1 "lexer_wire_machine.l"
 #line 2 "lexer_wire_machine.l"
 #include <cstdlib>
+#include <memory>
+#include "Expression.h"
 #include "Parser1.hpp"
 using namespace calc;
-#line 445 "Scanner1.cpp"
-#line 446 "Scanner1.cpp"
+#line 452 "Scanner1.cpp"
+#line 453 "Scanner1.cpp"
 
 #define INITIAL 0
 
@@ -700,11 +707,11 @@ YY_DECL
 		}
 
 	{
-#line 14 "lexer_wire_machine.l"
-
 #line 16 "lexer_wire_machine.l"
+
+#line 18 "lexer_wire_machine.l"
       
-#line 707 "Scanner1.cpp"
+#line 714 "Scanner1.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -731,13 +738,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 33 )
+				if ( yy_current_state >= 39 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 39 );
+		while ( yy_base[yy_current_state] != 49 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -763,65 +770,70 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "lexer_wire_machine.l"
+#line 19 "lexer_wire_machine.l"
 yylval->emplace<unsigned short>((unsigned short)strtoul(yytext, nullptr, 10)); return Parser::token::USHORT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "lexer_wire_machine.l"
-yylval->emplace<char>(yytext[0]); return Parser::token::WIRE_NAME;
+#line 20 "lexer_wire_machine.l"
+yylval->emplace<std::string>(yytext); return Parser::token::WIRE_NAME;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "lexer_wire_machine.l"
+#line 21 "lexer_wire_machine.l"
 return Parser::token::OP_NOT;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "lexer_wire_machine.l"
+#line 22 "lexer_wire_machine.l"
 return Parser::token::OP_AND;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "lexer_wire_machine.l"
+#line 23 "lexer_wire_machine.l"
 return Parser::token::OP_OR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "lexer_wire_machine.l"
+#line 24 "lexer_wire_machine.l"
 return Parser::token::OP_LSHIFT;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "lexer_wire_machine.l"
+#line 25 "lexer_wire_machine.l"
 return Parser::token::OP_RSHIFT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "lexer_wire_machine.l"
-std::cout << "lex:CONNECT matched\n"; return Parser::token::CONNECT;
+#line 26 "lexer_wire_machine.l"
+return Parser::token::CONNECT;
 	YY_BREAK
 case 9:
-/* rule 9 can match eol */
 YY_RULE_SETUP
-#line 25 "lexer_wire_machine.l"
+#line 27 "lexer_wire_machine.l"
+return Parser::token::QUERY;
+	YY_BREAK
+case 10:
+/* rule 10 can match eol */
+YY_RULE_SETUP
+#line 28 "lexer_wire_machine.l"
 return Parser::token::EOL;
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 26 "lexer_wire_machine.l"
+#line 29 "lexer_wire_machine.l"
 return Parser::token::YYEOF;
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
-#line 27 "lexer_wire_machine.l"
-/* no action on unmatched input */
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 29 "lexer_wire_machine.l"
+#line 30 "lexer_wire_machine.l"
+/* no action on unmatched input */
+	YY_BREAK
+case 12:
+YY_RULE_SETUP
+#line 32 "lexer_wire_machine.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 824 "Scanner1.cpp"
+#line 836 "Scanner1.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1118,7 +1130,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 33 )
+			if ( yy_current_state >= 39 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1147,11 +1159,11 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 33 )
+		if ( yy_current_state >= 39 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 32);
+	yy_is_jam = (yy_current_state == 38);
 
 	(void)yyg;
 	return yy_is_jam ? 0 : yy_current_state;
@@ -1988,7 +2000,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 29 "lexer_wire_machine.l"
+#line 32 "lexer_wire_machine.l"
 
         
 int main() {
