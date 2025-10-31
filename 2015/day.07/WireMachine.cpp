@@ -1,7 +1,5 @@
 #include<bits/stdc++.h>
 
-using namespace std;
-
 #include "WireMachine.h"
 
 void WireMachine::AddWireNode(WireNode w) {

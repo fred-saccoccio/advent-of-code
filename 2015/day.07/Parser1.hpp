@@ -177,7 +177,7 @@
 # define YYDEBUG 0
 #endif
 
-#line 14 "grammar_wire_machine.y"
+#line 17 "grammar_wire_machine.y"
 namespace calc {
 #line 183 "Parser1.hpp"
 
@@ -375,11 +375,14 @@ namespace calc {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // expr
+      char dummy1[sizeof (std::shared_ptr<Expression>)];
+
       // WIRE_NAME
-      char dummy1[sizeof (char)];
+      char dummy2[sizeof (std::string)];
 
       // USHORT
-      char dummy2[sizeof (unsigned short)];
+      char dummy3[sizeof (unsigned short)];
     };
 
     /// The size of the largest semantic type.
@@ -423,17 +426,16 @@ namespace calc {
     YYEOF = 0,                     // "end of file"
     YYerror = 256,                 // error
     YYUNDEF = 257,                 // "invalid token"
-    OP_NOT = 258,                  // OP_NOT
-    OP_AND = 259,                  // OP_AND
-    OP_OR = 260,                   // OP_OR
-    OP_RSHIFT = 261,               // OP_RSHIFT
-    OP_LSHIFT = 262,               // OP_LSHIFT
-    CONNECT = 263,                 // CONNECT
-    EOL = 264,                     // EOL
-    LPAREN = 265,                  // LPAREN
-    RPAREN = 266,                  // RPAREN
-    WIRE_NAME = 267,               // WIRE_NAME
-    USHORT = 268                   // USHORT
+    EOL = 258,                     // EOL
+    OP_NOT = 259,                  // OP_NOT
+    OP_AND = 260,                  // OP_AND
+    OP_OR = 261,                   // OP_OR
+    OP_RSHIFT = 262,               // OP_RSHIFT
+    OP_LSHIFT = 263,               // OP_LSHIFT
+    CONNECT = 264,                 // CONNECT
+    QUERY = 265,                   // QUERY
+    WIRE_NAME = 266,               // WIRE_NAME
+    USHORT = 267                   // USHORT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -450,25 +452,25 @@ namespace calc {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 14, ///< Number of tokens.
+        YYNTOKENS = 13, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
-        S_OP_NOT = 3,                            // OP_NOT
-        S_OP_AND = 4,                            // OP_AND
-        S_OP_OR = 5,                             // OP_OR
-        S_OP_RSHIFT = 6,                         // OP_RSHIFT
-        S_OP_LSHIFT = 7,                         // OP_LSHIFT
-        S_CONNECT = 8,                           // CONNECT
-        S_EOL = 9,                               // EOL
-        S_LPAREN = 10,                           // LPAREN
-        S_RPAREN = 11,                           // RPAREN
-        S_WIRE_NAME = 12,                        // WIRE_NAME
-        S_USHORT = 13,                           // USHORT
-        S_YYACCEPT = 14,                         // $accept
-        S_lines = 15,                            // lines
-        S_line = 16                              // line
+        S_EOL = 3,                               // EOL
+        S_OP_NOT = 4,                            // OP_NOT
+        S_OP_AND = 5,                            // OP_AND
+        S_OP_OR = 6,                             // OP_OR
+        S_OP_RSHIFT = 7,                         // OP_RSHIFT
+        S_OP_LSHIFT = 8,                         // OP_LSHIFT
+        S_CONNECT = 9,                           // CONNECT
+        S_QUERY = 10,                            // QUERY
+        S_WIRE_NAME = 11,                        // WIRE_NAME
+        S_USHORT = 12,                           // USHORT
+        S_YYACCEPT = 13,                         // $accept
+        S_lines = 14,                            // lines
+        S_line = 15,                             // line
+        S_expr = 16                              // expr
       };
     };
 
@@ -503,8 +505,12 @@ namespace calc {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_expr: // expr
+        value.move< std::shared_ptr<Expression> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.move< char > (std::move (that.value));
+        value.move< std::string > (std::move (that.value));
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -533,12 +539,24 @@ namespace calc {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, char&& v)
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<Expression>&& v)
         : Base (t)
         , value (std::move (v))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const char& v)
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<Expression>& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::string&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::string& v)
         : Base (t)
         , value (v)
       {}
@@ -580,8 +598,12 @@ namespace calc {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_expr: // expr
+        value.template destroy< std::shared_ptr<Expression> > ();
+        break;
+
       case symbol_kind::S_WIRE_NAME: // WIRE_NAME
-        value.template destroy< char > ();
+        value.template destroy< std::string > ();
         break;
 
       case symbol_kind::S_USHORT: // USHORT
@@ -685,10 +707,10 @@ switch (yykind)
 #endif
       {}
 #if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, char v)
+      symbol_type (int tok, std::string v)
         : super_type (token_kind_type (tok), std::move (v))
 #else
-      symbol_type (int tok, const char& v)
+      symbol_type (int tok, const std::string& v)
         : super_type (token_kind_type (tok), v)
 #endif
       {}
@@ -798,6 +820,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_EOL ()
+      {
+        return symbol_type (token::EOL);
+      }
+#else
+      static
+      symbol_type
+      make_EOL ()
+      {
+        return symbol_type (token::EOL);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_OP_NOT ()
       {
         return symbol_type (token::OP_NOT);
@@ -888,59 +925,29 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_EOL ()
+      make_QUERY ()
       {
-        return symbol_type (token::EOL);
+        return symbol_type (token::QUERY);
       }
 #else
       static
       symbol_type
-      make_EOL ()
+      make_QUERY ()
       {
-        return symbol_type (token::EOL);
+        return symbol_type (token::QUERY);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_LPAREN ()
-      {
-        return symbol_type (token::LPAREN);
-      }
-#else
-      static
-      symbol_type
-      make_LPAREN ()
-      {
-        return symbol_type (token::LPAREN);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_RPAREN ()
-      {
-        return symbol_type (token::RPAREN);
-      }
-#else
-      static
-      symbol_type
-      make_RPAREN ()
-      {
-        return symbol_type (token::RPAREN);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_WIRE_NAME (char v)
+      make_WIRE_NAME (std::string v)
       {
         return symbol_type (token::WIRE_NAME, std::move (v));
       }
 #else
       static
       symbol_type
-      make_WIRE_NAME (const char& v)
+      make_WIRE_NAME (const std::string& v)
       {
         return symbol_type (token::WIRE_NAME, v);
       }
@@ -1264,8 +1271,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 13,     ///< Last index in yytable_.
-      yynnts_ = 3,  ///< Number of nonterminal symbols.
+      yylast_ = 33,     ///< Last index in yytable_.
+      yynnts_ = 4,  ///< Number of nonterminal symbols.
       yyfinal_ = 2 ///< Termination state number.
     };
 
@@ -1276,19 +1283,19 @@ switch (yykind)
   };
 
 
-#line 14 "grammar_wire_machine.y"
+#line 17 "grammar_wire_machine.y"
 } // calc
-#line 1282 "Parser1.hpp"
+#line 1289 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 19 "grammar_wire_machine.y"
+#line 22 "grammar_wire_machine.y"
 
   #define YY_DECL \
   int yylex(calc::Parser::semantic_type *yylval, yyscan_t yyscanner)
   YY_DECL;
 
-#line 1292 "Parser1.hpp"
+#line 1299 "Parser1.hpp"
 
 
 #endif // !YY_YY_PARSER1_HPP_INCLUDED

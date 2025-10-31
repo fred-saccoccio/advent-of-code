@@ -1,5 +1,8 @@
 #ifndef __DAY_07_H__
 #define __DAY_07_H__
+#include<map>
+#include<string>
+using namespace std;
 
 enum TypeEnum {
   IDLE,         // The wire is not connected to anything:
