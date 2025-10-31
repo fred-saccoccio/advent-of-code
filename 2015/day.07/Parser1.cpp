@@ -741,116 +741,118 @@ namespace calc {
                 break;
               case NOT:
                 w.Type = OP_NOT;
+                w.Connections[0] = yystack_[3].value.as < std::shared_ptr<Expression> > ()->Operands[0];
+                m.AddWireNode(w);
                 break;
             }
           }
-#line 748 "Parser1.cpp"
+#line 750 "Parser1.cpp"
     break;
 
   case 7: // line: error EOL
-#line 94 "grammar_wire_machine.y"
+#line 96 "grammar_wire_machine.y"
                                       { yyerrok; }
-#line 754 "Parser1.cpp"
+#line 756 "Parser1.cpp"
     break;
 
   case 8: // expr: USHORT
-#line 96 "grammar_wire_machine.y"
+#line 98 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[0].value.as < unsigned short > ()); }
-#line 760 "Parser1.cpp"
+#line 762 "Parser1.cpp"
     break;
 
   case 9: // expr: WIRE_NAME
-#line 97 "grammar_wire_machine.y"
+#line 99 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(WIRE, 0, yystack_[0].value.as < std::string > ()); }
-#line 766 "Parser1.cpp"
+#line 768 "Parser1.cpp"
     break;
 
   case 10: // expr: OP_NOT WIRE_NAME
-#line 98 "grammar_wire_machine.y"
+#line 100 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(NOT, 0, yystack_[0].value.as < std::string > ()); }
-#line 772 "Parser1.cpp"
+#line 774 "Parser1.cpp"
     break;
 
   case 11: // expr: OP_NOT USHORT
-#line 99 "grammar_wire_machine.y"
+#line 101 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, ~yystack_[0].value.as < unsigned short > ()); }
-#line 778 "Parser1.cpp"
+#line 780 "Parser1.cpp"
     break;
 
   case 12: // expr: WIRE_NAME OP_AND WIRE_NAME
-#line 100 "grammar_wire_machine.y"
+#line 102 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND, 0, yystack_[2].value.as < std::string > (), yystack_[0].value.as < std::string > ()); }
-#line 784 "Parser1.cpp"
+#line 786 "Parser1.cpp"
     break;
 
   case 13: // expr: USHORT OP_AND WIRE_NAME
-#line 101 "grammar_wire_machine.y"
+#line 103 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND_SINGLE, yystack_[2].value.as < unsigned short > (), yystack_[0].value.as < std::string > ()); }
-#line 790 "Parser1.cpp"
+#line 792 "Parser1.cpp"
     break;
 
   case 14: // expr: WIRE_NAME OP_AND USHORT
-#line 102 "grammar_wire_machine.y"
+#line 104 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(AND_SINGLE, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
-#line 796 "Parser1.cpp"
+#line 798 "Parser1.cpp"
     break;
 
   case 15: // expr: USHORT OP_AND USHORT
-#line 103 "grammar_wire_machine.y"
+#line 105 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () & yystack_[0].value.as < unsigned short > ()); }
-#line 802 "Parser1.cpp"
+#line 804 "Parser1.cpp"
     break;
 
   case 16: // expr: WIRE_NAME OP_OR WIRE_NAME
-#line 104 "grammar_wire_machine.y"
+#line 106 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR, 0, yystack_[2].value.as < std::string > (), yystack_[0].value.as < std::string > ()); }
-#line 808 "Parser1.cpp"
+#line 810 "Parser1.cpp"
     break;
 
   case 17: // expr: USHORT OP_OR WIRE_NAME
-#line 105 "grammar_wire_machine.y"
+#line 107 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR_SINGLE, yystack_[2].value.as < unsigned short > (), yystack_[0].value.as < std::string > ()); }
-#line 814 "Parser1.cpp"
+#line 816 "Parser1.cpp"
     break;
 
   case 18: // expr: WIRE_NAME OP_OR USHORT
-#line 106 "grammar_wire_machine.y"
+#line 108 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(OR_SINGLE, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
-#line 820 "Parser1.cpp"
+#line 822 "Parser1.cpp"
     break;
 
   case 19: // expr: USHORT OP_OR USHORT
-#line 107 "grammar_wire_machine.y"
+#line 109 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () | yystack_[0].value.as < unsigned short > ()); }
-#line 826 "Parser1.cpp"
+#line 828 "Parser1.cpp"
     break;
 
   case 20: // expr: USHORT OP_LSHIFT USHORT
-#line 108 "grammar_wire_machine.y"
+#line 110 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () >> yystack_[0].value.as < unsigned short > ()); }
-#line 832 "Parser1.cpp"
+#line 834 "Parser1.cpp"
     break;
 
   case 21: // expr: WIRE_NAME OP_LSHIFT USHORT
-#line 109 "grammar_wire_machine.y"
+#line 111 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(SHIFTL, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
-#line 838 "Parser1.cpp"
+#line 840 "Parser1.cpp"
     break;
 
   case 22: // expr: USHORT OP_RSHIFT USHORT
-#line 110 "grammar_wire_machine.y"
+#line 112 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(VALUE, yystack_[2].value.as < unsigned short > () << yystack_[0].value.as < unsigned short > ()); }
-#line 844 "Parser1.cpp"
+#line 846 "Parser1.cpp"
     break;
 
   case 23: // expr: WIRE_NAME OP_RSHIFT USHORT
-#line 111 "grammar_wire_machine.y"
+#line 113 "grammar_wire_machine.y"
                                       { yylhs.value.as < std::shared_ptr<Expression> > () = std::make_shared<Expression>(SHIFTR, yystack_[0].value.as < unsigned short > (), yystack_[2].value.as < std::string > ()); }
-#line 850 "Parser1.cpp"
+#line 852 "Parser1.cpp"
     break;
 
 
-#line 854 "Parser1.cpp"
+#line 856 "Parser1.cpp"
 
             default:
               break;
@@ -1134,9 +1136,9 @@ namespace calc {
   const signed char
   Parser::yyrline_[] =
   {
-       0,    56,    56,    57,    60,    61,    72,    94,    96,    97,
-      98,    99,   100,   101,   102,   103,   104,   105,   106,   107,
-     108,   109,   110,   111
+       0,    56,    56,    57,    60,    61,    72,    96,    98,    99,
+     100,   101,   102,   103,   104,   105,   106,   107,   108,   109,
+     110,   111,   112,   113
   };
 
   void
@@ -1216,9 +1218,9 @@ namespace calc {
 
 #line 17 "grammar_wire_machine.y"
 } // calc
-#line 1220 "Parser1.cpp"
+#line 1222 "Parser1.cpp"
 
-#line 112 "grammar_wire_machine.y"
+#line 114 "grammar_wire_machine.y"
 
   
 void calc::Parser::error(const std::string& msg) {

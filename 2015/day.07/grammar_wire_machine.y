@@ -88,6 +88,8 @@ line    : EOL                         { }
                 break;
               case NOT:
                 w.Type = OP_NOT;
+                w.Connections[0] = $1->Operands[0];
+                m.AddWireNode(w);
                 break;
             }
           }
