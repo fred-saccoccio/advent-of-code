@@ -4,24 +4,24 @@
 #include <memory>
 #include <cmath>
 #include "Expression.h"
-#include "Scanner1.hpp"
+#include "Scanner.hpp"
 #include "WireMachine.h" 
 %}
  
 %require "3.7.4"
 %language "C++"
-%defines "Parser1.hpp"
-%output "Parser1.cpp"
+%defines "Parser.hpp"
+%output "Parser.cpp"
   
 %define api.parser.class {Parser}
-%define api.namespace {calc}
+%define api.namespace {wiremachine}
 %define api.value.type variant
 %param {yyscan_t scanner}
    
 %code provides
 {
   #define YY_DECL \
-  int yylex(calc::Parser::semantic_type *yylval, yyscan_t yyscanner)
+  int yylex(wiremachine::Parser::semantic_type *yylval, yyscan_t yyscanner)
   YY_DECL;
 }
                     
@@ -37,7 +37,7 @@
 
 %code
 {
-  namespace calc {
+  namespace wiremachine {
     long long ivars['Z' - 'A' + 1];
     double fvars['z' - 'a' + 1];
 
@@ -48,8 +48,71 @@
         return n * factorial(n - 1);
       }
     }
+    
+    void make_WireNode(std::shared_ptr<Expression> expr, std::string name, WireNode& w) {
+      w.Name = name;
+
+      switch(expr->Type) {
+        case VALUE:
+          w.Type = IMMEDIATE;
+          w.Value = expr->Value;
+          w.Connections[0] = "";
+          w.Connections[1] = "";
+          break;
+        case NOT:
+          w.Type = OP_NOT;
+          w.Value = 0;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break; 
+        case AND:
+          w.Type = OP_AND_2_OPS;
+          w.Value = 0;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = expr->Operands[1];
+          break;
+        case AND_SINGLE:
+          w.Type = OP_AND_1_OP;
+          w.Value = expr->Value;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break;
+        case OR:
+          w.Type = OP_OR_2_OPS;
+          w.Value = 0;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = expr->Operands[1];
+          break;
+        case OR_SINGLE:
+          w.Type = OP_OR_1_OP;
+          w.Value = expr->Value;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break;
+        case SHIFTL:
+          w.Type = OP_SHIFT_L;
+          w.Value = expr->Value;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break;
+        case SHIFTR:
+          w.Type = OP_SHIFT_R;
+          w.Value = expr->Value;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break;
+        case WIRE:
+          w.Type = SINGLE;
+          w.Value = 0;
+          w.Connections[0] = expr->Operands[0];
+          w.Connections[1] = "";
+          break;
+      }
+    } 
+
     WireMachine m;
-  } // namespace calc
+    WireNode w;
+  } // namespace wiremachine
 } // %code
 
 %%
@@ -60,10 +123,9 @@ lines   : %empty
 line    : EOL                         { }
         | QUERY WIRE_NAME             
           { 
-            std::cout << "Query matched for wire " << $2 <<  std::endl;
             unsigned short w = 0; 
             try {
-              w = m.QueryWireNodeValue($2);
+              w = m.QueryWireNodeValue($2, 0);
               std::cout << $2 << "=" << w << endl; 
             } catch(std::string exc) {
               std::cout << "Error: " << exc << std::endl; 
@@ -71,27 +133,9 @@ line    : EOL                         { }
           }
         | expr CONNECT WIRE_NAME EOL  
           { 
-            $1->print(); 
-            std::cout << "wire=" << $3 << std::endl;
-            WireNode w;
-            w.Name = $3;
-            switch($1->Type) {
-              case VALUE:
-                w.Type = IMMEDIATE;
-                w.Value = $1->Value;
-                m.AddWireNode(w);
-                break;
-              case WIRE:
-                w.Type = SINGLE;
-                w.Connections[0] = $1->Operands[0];
-                m.AddWireNode(w);
-                break;
-              case NOT:
-                w.Type = OP_NOT;
-                w.Connections[0] = $1->Operands[0];
-                m.AddWireNode(w);
-                break;
-            }
+            make_WireNode($1, $3, w);
+            w.print();
+            m.AddWireNode(w);
           }
         | error EOL                   { yyerrok; }
         ;
@@ -113,7 +157,7 @@ expr    : USHORT                      { $$ = std::make_shared<Expression>(VALUE,
         | WIRE_NAME OP_RSHIFT USHORT  { $$ = std::make_shared<Expression>(SHIFTR, $3, $1); }
 %%
   
-void calc::Parser::error(const std::string& msg) {
+void wiremachine::Parser::error(const std::string& msg) {
   std::cerr << msg << '\n';
 }
 

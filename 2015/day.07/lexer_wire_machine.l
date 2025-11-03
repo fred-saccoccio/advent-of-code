@@ -2,11 +2,11 @@
 #include <cstdlib>
 #include <memory>
 #include "Expression.h"
-#include "Parser1.hpp"
-using namespace calc;
+#include "Parser.hpp"
+using namespace wiremachine;
 %}
    
-%option reentrant interactive noyywrap noyylineno nodefault outfile="Scanner1.cpp" header="Scanner1.hpp"
+%option reentrant interactive noyywrap noyylineno nodefault outfile="Scanner.cpp" header="Scanner.hpp"
     
 dseq            ([[:digit:]]+)
 exp_opt         ({exp}?)
@@ -33,7 +33,7 @@ wire_name       ([[:lower:]]+)
 int main() {
   yyscan_t scanner;
   yylex_init(&scanner);
-  calc::Parser parser{ scanner };
+  wiremachine::Parser parser{ scanner };
   std::cout.precision(10);
   parser.parse();
   yylex_destroy(scanner);
