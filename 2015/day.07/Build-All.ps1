@@ -11,6 +11,6 @@ Write-Host Building syntaxic analyzer: FINISHED
 Write-Host ##############################################################################################
 
 Write-Host Building final exe...
-g++ -o calc Scanner1.cpp Parser1.cpp WireMachine.cpp
+g++ -g -Wall -o wiremachine Scanner.cpp Parser.cpp WireMachine.cpp
 Write-Host Building final exe: FINISHED
 

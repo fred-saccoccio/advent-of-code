@@ -2,9 +2,9 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 5 "Scanner1.hpp"
+#line 5 "Scanner.hpp"
 
-#line 7 "Scanner1.hpp"
+#line 7 "Scanner.hpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -484,6 +484,6 @@ extern int yylex (yyscan_t yyscanner);
 #line 32 "lexer_wire_machine.l"
 
 
-#line 487 "Scanner1.hpp"
+#line 487 "Scanner.hpp"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

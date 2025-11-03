@@ -32,8 +32,8 @@
 
 
 /**
- ** \file Parser1.hpp
- ** Define the calc::parser class.
+ ** \file Parser.hpp
+ ** Define the wiremachine::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
@@ -42,8 +42,8 @@
 // especially those whose name start with YY_ or yy_.  They are
 // private implementation details that can be changed or removed.
 
-#ifndef YY_YY_PARSER1_HPP_INCLUDED
-# define YY_YY_PARSER1_HPP_INCLUDED
+#ifndef YY_YY_PARSER_HPP_INCLUDED
+# define YY_YY_PARSER_HPP_INCLUDED
 
 
 # include <cstdlib> // std::abort
@@ -178,8 +178,8 @@
 #endif
 
 #line 17 "grammar_wire_machine.y"
-namespace calc {
-#line 183 "Parser1.hpp"
+namespace wiremachine {
+#line 183 "Parser.hpp"
 
 
 
@@ -1044,7 +1044,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const signed char yyrline_[];
+    static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -1284,18 +1284,18 @@ switch (yykind)
 
 
 #line 17 "grammar_wire_machine.y"
-} // calc
-#line 1289 "Parser1.hpp"
+} // wiremachine
+#line 1289 "Parser.hpp"
 
 
 // "%code provides" blocks.
 #line 22 "grammar_wire_machine.y"
 
   #define YY_DECL \
-  int yylex(calc::Parser::semantic_type *yylval, yyscan_t yyscanner)
+  int yylex(wiremachine::Parser::semantic_type *yylval, yyscan_t yyscanner)
   YY_DECL;
 
-#line 1299 "Parser1.hpp"
+#line 1299 "Parser.hpp"
 
 
-#endif // !YY_YY_PARSER1_HPP_INCLUDED
+#endif // !YY_YY_PARSER_HPP_INCLUDED

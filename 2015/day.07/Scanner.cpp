@@ -1,6 +1,6 @@
-#line 1 "Scanner1.cpp"
+#line 1 "Scanner.cpp"
 
-#line 3 "Scanner1.cpp"
+#line 3 "Scanner.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -447,10 +447,10 @@ static const flex_int16_t yy_chk[72] =
 #include <cstdlib>
 #include <memory>
 #include "Expression.h"
-#include "Parser1.hpp"
-using namespace calc;
-#line 452 "Scanner1.cpp"
-#line 453 "Scanner1.cpp"
+#include "Parser.hpp"
+using namespace wiremachine;
+#line 452 "Scanner.cpp"
+#line 453 "Scanner.cpp"
 
 #define INITIAL 0
 
@@ -711,7 +711,7 @@ YY_DECL
 
 #line 18 "lexer_wire_machine.l"
       
-#line 714 "Scanner1.cpp"
+#line 714 "Scanner.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -833,7 +833,7 @@ YY_RULE_SETUP
 #line 32 "lexer_wire_machine.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 836 "Scanner1.cpp"
+#line 836 "Scanner.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2006,7 +2006,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 int main() {
   yyscan_t scanner;
   yylex_init(&scanner);
-  calc::Parser parser{ scanner };
+  wiremachine::Parser parser{ scanner };
   std::cout.precision(10);
   parser.parse();
   yylex_destroy(scanner);
