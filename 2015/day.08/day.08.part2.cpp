@@ -41,7 +41,7 @@ bool measure_string(string s, string_measure& s_m) {
 
   // Escape backslashes
   string encoded = regex_replace(trimmed_s, backslash, R"(\\)"); 
-  // Escape backslashes 
+  // Escape double quotes 
   encoded = regex_replace(encoded, dquote, R"(\")");
   encoded = string("\"") + encoded + string("\"");
   
