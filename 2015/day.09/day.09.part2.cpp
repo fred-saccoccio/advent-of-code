@@ -121,7 +121,7 @@ void TspProblem::solve_brute_force() {
     locs.push_back(i);
   }
 
-  int min = INT_MAX;
+  int max = INT_MIN;
   int N = locs.size();
   do {
     print(locs);
@@ -129,12 +129,12 @@ void TspProblem::solve_brute_force() {
     for(int index = 0; index < N - 1; index++) {
       travel += costs[locs[index]][locs[index+1]];
     }
-    if(travel <= min) {
-      min = travel;
+    if(travel >= max) {
+      max = travel;
     }
   } while ( std::next_permutation(locs.begin(), locs.end()) );
  
-  printf("brute force min = %d\n", min);
+  printf("brute force min = %d\n", max);
 }
 
 
