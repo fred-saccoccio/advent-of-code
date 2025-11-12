@@ -12,7 +12,7 @@ public:
   ~Pwd();
   void setBuffer(string s);
   string getBuffer();
-  string getNextPwd();
+  void incBuffer();
 
 private:
   string buffer;
@@ -46,18 +46,25 @@ string Pwd::getBuffer() {
   return buffer;
 }
 
-string Pwd::getNextPwd() {
-  string retVal;
-  bool carry = false;
-  char c = incChar(buffer[7], carry);
-  cout << c << endl;
-  return retVal;
+void Pwd::incBuffer() {
+  bool carry = true;
+  int N = buffer.size();
+  int i = N-1;
+  while(carry == true && i >= 0) {
+    char c = incChar(buffer[i], carry);
+    buffer[i] = c;
+    i--;
+  }
 }
 
 int main() {
   Pwd pwd;
   pwd.setBuffer("hxbxwxba");
-  pwd.getNextPwd();
+  for(int index = 0; index < 10000; index++) {
+    printf("[%05d]=%s\n", index, pwd.getBuffer().c_str());
+    pwd.incBuffer();
+  }
 
   return 0;
 }
+
