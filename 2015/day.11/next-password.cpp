@@ -13,6 +13,7 @@ public:
   void setBuffer(string s);
   string getBuffer();
   void incBuffer();
+  bool isValid();
 
 private:
   string buffer;
@@ -24,6 +25,38 @@ Pwd::Pwd() {
 }
 
 Pwd::~Pwd() {
+}
+
+bool Pwd::isValid() {
+
+  // Search forbidden letters : o, i and l
+  for(auto c:buffer) {
+    if(c == 'i' || c == 'o' || c == 'l') {
+      return false;
+    }
+  }
+
+  // Check for increasing group of 3
+  bool incGroupOfThree = false;
+  int N = buffer.size();
+
+  for(int index = 0; index < N-2; index++) {
+    if(buffer[index] == buffer[index+1] && buffer[index+1] == buffer[index+2]) {
+      incGroupOfThree = true;
+      break;
+    }
+      
+  }
+
+  // Check for at least two different, non-overlapping pairs of letters, like aa, bb, or zz
+  bool atLeastTwoDifferent = false;
+  // For each possible group of 2
+  for(int index = 0; index < N-1; index++) {
+    // Look at the left of the current group
+    // Look at the right of the current group
+  }
+
+  return (incGroupOfThree && atLeastTwoDifferent);
 }
 
 char Pwd::incChar(char c, bool &carry) {
