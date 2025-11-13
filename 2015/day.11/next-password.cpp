@@ -114,9 +114,22 @@ void Pwd::incBuffer() {
   }
 }
 
-int main() {
+int main (int argc, char *argv[]) {
+  bool forceInc = false;
+  if(argc > 1 && string(argv[1]) == "--force-inc") {
+    forceInc = true;
+  }
+
+  string line;
+  getline(cin, line);
+  
   Pwd pwd;
-  pwd.setBuffer("hxbxwxba");
+  pwd.setBuffer(line);
+  
+  if(forceInc) {
+    pwd.incBuffer();
+  }
+
   size_t iteration = 0;
   while(! pwd.isValid()) {
     pwd.incBuffer();
