@@ -45,7 +45,6 @@ bool Pwd::isValid() {
       incGroupOfThree = true;
       break;
     }
-      
   }
 
   // Check for at least two different, non-overlapping pairs of letters, like aa, bb, or zz
