@@ -41,7 +41,7 @@ bool Pwd::isValid() {
   int N = buffer.size();
 
   for(int index = 0; index < N-2; index++) {
-    if(buffer[index] == buffer[index+1] && buffer[index+1] == buffer[index+2]) {
+    if(buffer[index+1] == buffer[index]+1 && buffer[index+2] == buffer[index+1]+1) {
       incGroupOfThree = true;
       break;
     }
@@ -49,10 +49,35 @@ bool Pwd::isValid() {
 
   // Check for at least two different, non-overlapping pairs of letters, like aa, bb, or zz
   bool atLeastTwoDifferent = false;
+  
   // For each possible group of 2
   for(int index = 0; index < N-1; index++) {
+    // Check if we have a group of 2 equal letters
+    if(buffer[index] != buffer[index+1]) {
+      continue;
+    }
+    
     // Look at the left of the current group
+    for(int k = 0; k < index-2; k++) {
+      if(buffer[k] == buffer[k+1]) {
+        atLeastTwoDifferent = true;
+        break;
+      }
+    }
+
+    if(atLeastTwoDifferent == true)
+      break;
+
     // Look at the right of the current group
+    for (int k = index+2; k < N-1; k++) {
+      if(buffer[k] == buffer[k+1]) {
+        atLeastTwoDifferent = true;
+        break;
+      }
+    }
+    
+    if(atLeastTwoDifferent == true)
+      break;
   }
 
   return (incGroupOfThree && atLeastTwoDifferent);
@@ -92,10 +117,13 @@ void Pwd::incBuffer() {
 int main() {
   Pwd pwd;
   pwd.setBuffer("hxbxwxba");
-  for(int index = 0; index < 10000; index++) {
-    printf("[%05d]=%s\n", index, pwd.getBuffer().c_str());
+  size_t iteration = 0;
+  while(! pwd.isValid()) {
     pwd.incBuffer();
+    iteration++;
   }
+
+  printf("#iteration %zu, new password=%s\n", iteration, pwd.getBuffer().c_str());
 
   return 0;
 }
