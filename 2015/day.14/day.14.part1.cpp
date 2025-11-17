@@ -66,7 +66,22 @@ void ReindeerRace::printReindeers() {
 }
 
 int ReindeerRace::getWinningReindeerDistance() {
-  int retVal = 0;
+  int retVal = INT_MIN;
+
+  for(auto& r:Reindeers) {
+    int cycleLength = r.DurationSpeed + r.Rest;
+    int distancePerCycle = r.FlySpeed * r.DurationSpeed;
+    // Count all whole cycles
+    int currentVal = (RaceDuration / cycleLength) * distancePerCycle;
+    // Check the remainder
+    int remainder = RaceDuration % cycleLength;
+    int additional = min(remainder, r.DurationSpeed);
+    currentVal += additional*r.FlySpeed;
+    if(currentVal >= retVal) {
+      retVal = currentVal;
+    }
+  }
+
   return retVal;
 }
 
@@ -101,6 +116,9 @@ int main (int argc, char *argv[]) {
   
   printf("Reindeers read from input data:\n");
   HR.printReindeers();
+
+  int maxDistance = HR.getWinningReindeerDistance();
+  printf("Max distance=%d\n", maxDistance);
 
   return 0;
 }
