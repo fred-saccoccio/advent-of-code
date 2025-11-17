@@ -48,7 +48,7 @@ class ReindeerRace {
   public:
     ReindeerRace(int raceDuration);
     void loadReindeer(Reindeer h);
-    Reindeer getWinner();
+    int getWinningReindeerDistance();
     void printReindeers();
 };
 
@@ -65,8 +65,8 @@ void ReindeerRace::printReindeers() {
   }
 }
 
-Reindeer ReindeerRace::getWinner() {
-  Reindeer retVal;
+int ReindeerRace::getWinningReindeerDistance() {
+  int retVal = 0;
   return retVal;
 }
 
