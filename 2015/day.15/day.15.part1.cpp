@@ -49,7 +49,7 @@ class StringSplitter {
     }
 };
 
-void printVector(vector<int> v) {
+template<typename T> void printVector(vector<T> v) {
   printf("[");
 
   for(size_t i = 0; i < v.size(); i++) {
@@ -95,6 +95,59 @@ template <typename T> vector<vector<T>> getSubsets(vector<T>& v) {
 
 vector<vector<unsigned int>> getPartitions(unsigned int n) {
   vector<vector<unsigned int>> retVal;
+  
+  vector<unsigned int> v;
+  v.push_back(n);
+  retVal.push_back(v);
+
+  if(n == 0) {
+    return retVal;
+  }
+
+  bool finished = false;
+  vector<unsigned int>& currentPartition = v;
+  while(! finished) {
+    
+    // Find the rightmost element and different from 1 in currentPartition
+    // We refer it as the pivot hereafter
+    int index = currentPartition.size() - 1;
+    int remainder= 0;
+    while(index >= 0 && currentPartition[index] == 1) {
+      remainder++;
+      index--;
+    }
+
+    if(index < 0) {
+      finished = true;
+      break;
+    }
+
+    int pivot = currentPartition[index];
+    vector<unsigned int> tmpPartition; 
+    for(size_t i = 0; i < (size_t)index; i++) 
+    {
+      tmpPartition.push_back(currentPartition[i]); 
+    }
+    pivot--; // decrement pivot
+    tmpPartition.push_back(pivot);
+    remainder++;
+    
+    // Now distribute remainder by chunks of pivot
+    unsigned int chunkNumbers = remainder / pivot;
+    unsigned int chunkRemainder = remainder % pivot;
+    for(size_t i=0; i < chunkNumbers; i++) {
+      tmpPartition.push_back(pivot);
+    }
+
+    if(chunkRemainder > 0) {
+      tmpPartition.push_back(chunkRemainder);
+    }
+    
+    retVal.push_back(tmpPartition);
+    
+    currentPartition = retVal.back();
+  }
+
   return retVal;
 }
 
@@ -154,12 +207,18 @@ int main (int argc, char *argv[]) {
   printf("\n");
   for(auto& s:subsets) {
     printf("  ");
-    printVector(s);
+    printVector<int>(s);
     printf("\n");
   }
   printf("]");
   printf("\n");
   printf("subsets.size()=%zu\n", subsets.size());
+
+  auto parts = getPartitions(100);
+  for(auto& p:parts) {
+    printVector<unsigned int>(p);
+    printf("\n");
+  }
 
   return 0;
 }
