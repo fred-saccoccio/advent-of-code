@@ -12,13 +12,6 @@ int main (int argc, char *argv[]) {
   int nb_lines = 0;
 
   int start = 50;
-  /*
-  int a,b;
-  a = 3;
-  b = 5;
-  int c = safe_modulo(a-b, 100);
-  printf("a - b = %d\n", c);
-  */
 
   // Read the number of lines to read
   cin >> nb_lines;
