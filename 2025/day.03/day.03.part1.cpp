@@ -26,7 +26,7 @@ int getJoltage(string s) {
 
 
 int main (int argc, char *argv[]) {
-  int nbLines = 0;
+  int nbLines = -1;
   cin >> nbLines;
   cin.ignore();
 
