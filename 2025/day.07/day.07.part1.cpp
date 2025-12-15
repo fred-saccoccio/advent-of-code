@@ -28,6 +28,7 @@ int main (int argc, char *argv[]) {
   
   grid[1][index] = '|';
 
+  size_t splits = 0;
   size_t LINES = grid.size();
   size_t COLS = grid[0].size();
   for(size_t line = 1; line < LINES-1; line++) {
@@ -38,18 +39,24 @@ int main (int argc, char *argv[]) {
           // Beam moves forward
           grid[line+1][col] = '|'; 
         } else if(grid[line+1][col] == '^' ) {
+          int local_splits = 0;
           // Split the beam : Left
           if((int)col-1 >= 0) {
             grid[line+1][col - 1] = '|';
+            local_splits++;
           }
           // Split the beam : Left
           if(col+1 < COLS) {
             grid[line+1][col + 1] = '|';
+            local_splits++;
           }
+          if(local_splits==2)
+            splits++;
         }
       }
     }
   }
 
+  printf("splits=%zu\n", splits);
   return 0;
 }
