@@ -30,7 +30,6 @@ class StringSplitter {
 
 int main (int argc, char *argv[]) {
   vector<int> left;
-  //vector<int> right;
   unordered_map<int,int> right;
   
   string input;
@@ -40,7 +39,6 @@ int main (int argc, char *argv[]) {
     int r = stoi(splits[1]);
     
     if (right.find(r) != right.end()) {
-    // la clé existe
        right[r]++;
     } else {
       right[r] = 1;
