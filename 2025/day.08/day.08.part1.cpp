@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+#define VERBOSE
 struct Point3d {
   int X;
   int Y;
@@ -24,6 +24,15 @@ struct JunctionBoxesDist {
   
   bool operator<(const JunctionBoxesDist& other) const {
     return Dist < other.Dist;
+  }
+
+  void print() {
+    printf("{Line=%4lu,Col=%4lu,Dist=%8.2f}", Line, Col, Dist);
+  }
+
+  void println() {
+    print();
+    printf("\n");
   }
 };
 
@@ -146,6 +155,55 @@ int main (int argc, char *argv[]) {
   print_distances(distances, lines);
 
   printf("min=%f (%zu,%zu)\n", min_distance, line_min, col_min);
+
+  size_t iteration = 0;
+  size_t MAX_ITERATIONS = 10;
+  for(auto d:dists) {
+    iteration++;
+    int m = min(boxes[d.Line].Circuit, boxes[d.Col].Circuit);
+    int M = max(boxes[d.Line].Circuit, boxes[d.Col].Circuit);
+    for(size_t index = 0; index < lines; index++) {
+      if(boxes[index].Circuit == M)
+        boxes[index].Circuit = m;
+    }
+#ifdef VERBOSE
+    printf("iteration=%lu\n", iteration);
+    d.println();
+    for(size_t i = 0; i < lines; i++) {
+      printf("[%4zu]=", i);
+      boxes[i].println();
+    }
+    char ans;
+    cin >> ans;
+#endif
+    if(iteration >= MAX_ITERATIONS)
+      break;
+  }
+
+  unordered_map<int,int> results;
+  for(size_t i = 0; i < lines; i++) {
+    if(results.find(boxes[i].Circuit) != results.end()) {
+      results[boxes[i].Circuit]++;
+    } else {
+      results[boxes[i].Circuit] = 1;
+    }
+  }
+  
+  vector<int> sorted_results;
+  for(const auto& res:results) {
+    sorted_results.push_back(res.second);
+  }
+
+  sort(sorted_results.begin(), sorted_results.end(), std::greater<int>());
+
+  int result = sorted_results[0] * sorted_results[1] * sorted_results[2];
+
+  printf("result=%d\n", result);
+
+  for(size_t i = 0; i < lines; i++) {
+    printf("[%4zu]=", i);
+    boxes[i].println();
+  }
   
   delete [] boxes;
   for(size_t i = 0; i < MAX_SIZE; i++) {
