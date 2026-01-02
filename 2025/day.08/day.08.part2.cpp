@@ -132,10 +132,10 @@ int main (int argc, char *argv[]) {
 
   size_t iteration = 0;
   for(auto d:dists) {
-    if(iteration == MAX_ITERATIONS)
-      break;
+    //if(iteration == MAX_ITERATIONS)
+    //  break;
 
-    iteration++;
+    // iteration++;
 
     int c1 = boxes[d.Line].Circuit;
     int c2 = boxes[d.Col].Circuit;
@@ -145,6 +145,23 @@ int main (int argc, char *argv[]) {
       for(size_t index = 0; index < lines; index++) {
         if(boxes[index].Circuit == M)
           boxes[index].Circuit = m;
+      }
+      
+      // Check for single circuit
+      int ref = boxes[0].Circuit;
+      bool singleCircuit = true;
+      for(size_t index = 0; index < lines; index++) {
+        if(boxes[index].Circuit != ref) {
+          singleCircuit = false;
+          break;
+        }
+      }
+      if(singleCircuit) {
+        unsigned long long int lX = (unsigned long long int)boxes[d.Line].X;
+        unsigned long long int lY = (unsigned long long int)boxes[d.Col].X;
+        unsigned long long int lRes = lX*lY;
+        printf("result=%llu\n", lRes);
+        break;
       }
     }
     
@@ -185,7 +202,7 @@ int main (int argc, char *argv[]) {
 
   int result = sorted_results[0] * sorted_results[1] * sorted_results[2];
 
-  printf("result=%d\n", result);
+  // printf("result=%d\n", result);
   
   delete [] boxes;
   for(size_t i = 0; i < MAX_SIZE; i++) {
