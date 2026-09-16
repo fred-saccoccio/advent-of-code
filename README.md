@@ -3,7 +3,7 @@
 This repository stores my source codes to solve the various editions of the Advent Of Code : some are in python and some are in C++. The choice for the used programming language depends on what I have at hand when I solve the problem and/or the one that feels more "convenient" for the job.
 
 Please keep in mind that unlike usual competitive programming platforms, Advent Of Code validates
-its puzzles if the expected answer is supplied. There's no TLE(Time Limit Exceeded) possibility, so
+your puzzles answers if the expected value is supplied. There's no TLE(Time Limit Exceeded) possibility, so
 the algorithms I chose to solve the problems are not for sure the best ones. 
 ## Disclaimer
 You are free to reuse any of the source codes in this repo but I'm not responsible for any consequences of this usage.
